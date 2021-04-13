@@ -1,0 +1,10 @@
+* {
+  outline: none;
+  color: black;
+  background-color: white;
+  font-family: Oxygen, sans-serif;
+}
+
+#wrapper {
+  text-align: center;
+}
