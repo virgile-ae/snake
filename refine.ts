@@ -20,29 +20,30 @@ class Game {
   private direction: Direction;
   private length: number = 2;
   private run: number;
+
   private score: number = 0;
-  private _apple;
+  private _apple: Square;
 
   private get apple() {
     return this._apple;
   }
-  private set apple(setTo) {
+  private set apple(setTo: Square) {
     this._apple = setTo;
-    this.length = this.length += 4;
+    this.length += 4;
     this.toWhite(this.apple);
   }
 
   constructor() {
+    //Creating a canvas, setting height and width, getting canvas context, running the render function
     this.canvas = document.createElement("canvas");
     this.canvas.width = 750;
     this.canvas.height = 750;
     document.getElementById("holder").append(this.canvas);
     this.ctx = this.canvas.getContext("2d");
-
     this.render();
   }
 
-  render(): void {
+  private render(): void {
     window.addEventListener("keydown", (e) => {
       this.direction = this.findDirection(e.key);
     });
@@ -53,10 +54,15 @@ class Game {
         this.toWhite(this.blockList[i]);
       }
       this.addSquaresToBlockList();
-      this.adjustLength();
       this.toWhite(this.apple);
-      this.consumeApple();
-    }, 50);
+
+      if (this.apple.xCoor === this.xPos && this.apple.yCoor === this.yPos) {
+        ++this.score >= 15 ? this.endPage(true) : this.randomAppleCoord();
+      }
+      if (this.blockList.length > this.length) {
+        this.blockList.shift();
+      }
+    }, 66);
     this.randomAppleCoord();
   }
 
@@ -150,12 +156,6 @@ class Game {
     return thisSquare;
   }
 
-  private adjustLength(): void {
-    if (this.length < this.blockList.length) {
-      this.blockList.shift();
-    }
-  }
-
   private endPage(ifWon: Boolean): void {
     let message: string = ifWon ? "you win" : "you lose";
     clearInterval(this.run);
@@ -167,12 +167,6 @@ class Game {
     setTimeout(() => {
       location.reload();
     }, 1000);
-  }
-
-  private consumeApple(): void {
-    if (this.apple.xCoor === this.xPos && this.apple.yCoor === this.yPos) {
-      ++this.score >= 15 ? this.endPage(true) : this.randomAppleCoord();
-    }
   }
 }
 

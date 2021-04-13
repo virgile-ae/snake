@@ -12,6 +12,7 @@ class Game {
         this.blockList = [];
         this.length = 2;
         this.score = 0;
+        //Creating a canvas, setting height and width, getting canvas context, running the render function
         this.canvas = document.createElement("canvas");
         this.canvas.width = 750;
         this.canvas.height = 750;
@@ -24,7 +25,7 @@ class Game {
     }
     set apple(setTo) {
         this._apple = setTo;
-        this.length = this.length += 4;
+        this.length += 4;
         this.toWhite(this.apple);
     }
     render() {
@@ -38,10 +39,14 @@ class Game {
                 this.toWhite(this.blockList[i]);
             }
             this.addSquaresToBlockList();
-            this.adjustLength();
             this.toWhite(this.apple);
-            this.consumeApple();
-        }, 50);
+            if (this.apple.xCoor === this.xPos && this.apple.yCoor === this.yPos) {
+                ++this.score >= 15 ? this.endPage(true) : this.randomAppleCoord();
+            }
+            if (this.blockList.length > this.length) {
+                this.blockList.shift();
+            }
+        }, 66);
         this.randomAppleCoord();
     }
     randomAppleCoord() {
@@ -127,11 +132,6 @@ class Game {
         this.blockList.push(thisSquare);
         return thisSquare;
     }
-    adjustLength() {
-        if (this.length < this.blockList.length) {
-            this.blockList.shift();
-        }
-    }
     endPage(ifWon) {
         let message = ifWon ? "you win" : "you lose";
         clearInterval(this.run);
@@ -143,11 +143,6 @@ class Game {
         setTimeout(() => {
             location.reload();
         }, 1000);
-    }
-    consumeApple() {
-        if (this.apple.xCoor === this.xPos && this.apple.yCoor === this.yPos) {
-            ++this.score >= 15 ? this.endPage(true) : this.randomAppleCoord();
-        }
     }
 }
 const game = new Game();
