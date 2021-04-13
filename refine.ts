@@ -158,15 +158,11 @@ class Game {
 
   private endPage(ifWon: Boolean): void {
     let message: string = ifWon ? "you win" : "you lose";
-
     clearInterval(this.run);
-
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, 750, 750);
-
     this.ctx.font = "20px Oxygen";
     this.ctx.fillStyle = "white";
-
     this.ctx.fillText(message, 330, 355);
     setTimeout(() => {
       location.reload();
