@@ -3,7 +3,6 @@ enum Direction {
   Down,
   Left,
   Right,
-  Loss,
 }
 
 interface Square {
@@ -110,12 +109,9 @@ class Game {
           this.newBlock(this.xPos, this.yPos);
           this.xPos -= 10;
           break;
-        case Direction.Loss:
-          this.losePage();
-          break;
       }
     } else {
-      this.losePage();
+      this.endPage(false);
     }
   }
 
@@ -147,8 +143,7 @@ class Game {
 
     this.blockList.forEach((item) => {
       if (item.xCoor === thisSquare.xCoor && item.yCoor === thisSquare.yCoor) {
-        this.direction = Direction.Loss;
-        this.losePage();
+        this.endPage(false);
       }
     });
     this.blockList.push(thisSquare);
@@ -161,27 +156,18 @@ class Game {
     }
   }
 
-  private losePage(): void {
+  private endPage(ifWon: Boolean): void {
+    let message: string = ifWon ? "you win" : "you lose";
+
     clearInterval(this.run);
+
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, 750, 750);
 
     this.ctx.font = "20px Oxygen";
     this.ctx.fillStyle = "white";
-    this.ctx.fillText("you lose", 330, 355);
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
-  }
 
-  private winPage(): void {
-    clearInterval(this.run);
-    this.ctx.fillStyle = "black";
-    this.ctx.fillRect(0, 0, 750, 750);
-
-    this.ctx.font = "20px Oxygen";
-    this.ctx.fillStyle = "white";
-    this.ctx.fillText("you win", 330, 355);
+    this.ctx.fillText(message, 330, 355);
     setTimeout(() => {
       location.reload();
     }, 1000);
@@ -190,7 +176,7 @@ class Game {
   private consumeApple(): void {
     if (this.apple.xCoor === this.xPos && this.apple.yCoor === this.yPos) {
       if (++this.score >= 15) {
-        this.winPage();
+        this.endPage(true);
       } else {
         this.randomAppleCoord();
       }

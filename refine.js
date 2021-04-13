@@ -160,6 +160,7 @@ class Game {
       location.reload();
     }, 1000);
   }
+
   consumeApple() {
     if (this.apple.xCoor === this.xPos && this.apple.yCoor === this.yPos) {
       if (++this.score >= 15) {
