@@ -46,11 +46,11 @@ class Game {
     }
     randomAppleCoord() {
         let x = Math.floor(Math.random() * 50) * 10;
-        while (x <= 10 || x >= 480) {
+        while (x <= 20 || x >= 470) {
             x = Math.floor(Math.random() * 50) * 10;
         }
         let y = Math.floor(Math.random() * 50) * 10;
-        while (y <= 10 || y >= 480) {
+        while (y <= 20 || y >= 470) {
             x = Math.floor(Math.random() * 50) * 10;
         }
         for (let i = 0; i < this.blockList.length; i++) {
@@ -146,12 +146,7 @@ class Game {
     }
     consumeApple() {
         if (this.apple.xCoor === this.xPos && this.apple.yCoor === this.yPos) {
-            if (++this.score >= 15) {
-                this.endPage(true);
-            }
-            else {
-                this.randomAppleCoord();
-            }
+            ++this.score >= 15 ? this.endPage(true) : this.randomAppleCoord();
         }
     }
 }

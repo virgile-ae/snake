@@ -62,11 +62,11 @@ class Game {
 
   private randomAppleCoord(): void {
     let x: number = Math.floor(Math.random() * 50) * 10;
-    while (x <= 10 || x >= 480) {
+    while (x <= 20 || x >= 470) {
       x = Math.floor(Math.random() * 50) * 10;
     }
     let y: number = Math.floor(Math.random() * 50) * 10;
-    while (y <= 10 || y >= 480) {
+    while (y <= 20 || y >= 470) {
       x = Math.floor(Math.random() * 50) * 10;
     }
 
