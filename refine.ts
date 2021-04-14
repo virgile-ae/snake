@@ -165,7 +165,7 @@ class Game {
     this.ctx.fillStyle = "white";
     this.ctx.fillText(message, 330, 355);
     setTimeout(() => {
-      location.reload();
+      window.location.reload();
     }, 1000);
   }
 }
