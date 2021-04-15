@@ -84,7 +84,7 @@ class Game {
     //Listens for keypresses
     window.addEventListener("keydown", (e) => {
       //Sets direction to the keypress if it is valid (uses the findDirection to check if valid)
-      this.direction = this.findDirection(e.key);
+      this.direction = this.findDirection(e.code);
     });
     //Creates a loop that runs every 66ms
     this.run = setInterval(() => {
@@ -193,13 +193,13 @@ class Game {
   private findDirection(input): Direction {
     //translates keypress inputs to Direction
     switch (input.toLowerCase() as String) {
-      case "w":
+      case "keyw":
         return Direction.Up;
-      case "d":
+      case "keyd":
         return Direction.Right;
-      case "s":
+      case "keys":
         return Direction.Down;
-      case "a":
+      case "keya":
         return Direction.Left;
       //Default is the existing direction
       default:
