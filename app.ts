@@ -250,7 +250,7 @@ class Game {
     } catch (error) {
       this.ctx.fillStyle = "white";
     }
-    this.ctx.fillText(message, 330, 355);
+    this.ctx.fillText(message, 270, 355);
     //Reloads page after 1 second
     setTimeout(() => {
       window.location.reload();
