@@ -7,6 +7,16 @@ var Direction;
     Direction[Direction["Right"] = 3] = "Right";
 })(Direction || (Direction = {}));
 class Game {
+    // get color() {
+    //   return this._color;
+    // }
+    // set color(setTo: string) {
+    //   if (setTo === "black") {
+    //     this._color = "white";
+    //   } else {
+    //     this._color = setTo;
+    //   }
+    // }
     //Runs when new object is created
     constructor() {
         //Position of the leading block  (set to middle of the screen)
@@ -27,12 +37,14 @@ class Game {
         document.getElementById("holder").append(this.canvas);
         //Need this to draw on canvas Documentation:(https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext)
         this.ctx = this.canvas.getContext("2d");
-        this.color = prompt("What color do you want", "white")
-            .toLowerCase()
-            .replace(/\s+/g, "");
+        // this.color = prompt("What color do you want", "white")
+        //   .toLowerCase()
+        //   .replace(/\s+/g, "");
         //Calling the render method (see below)
         this.render();
     }
+    //Color of game
+    //private _color: string;
     //Getter for apple
     get apple() {
         return this._apple;
@@ -42,17 +54,6 @@ class Game {
         this._apple = setTo;
         this.length += 4;
         this.toWhite(this.apple);
-    }
-    get color() {
-        return this._color;
-    }
-    set color(setTo) {
-        if (setTo === "black") {
-            this._color = "white";
-        }
-        else {
-            this._color = setTo;
-        }
     }
     // Render method
     render() {
@@ -77,13 +78,15 @@ class Game {
             //If the apple's coordinates match those of the leading block
             if (this.apple.xCoor === this.xPos && this.apple.yCoor === this.yPos) {
                 // If the incremented score is = to or larger than 15, displays winpage, else creates new apple which automatically renders (see the setter for apple above)
-                ++this.score >= 15 ? this.endPage(true) : this.randomAppleCoord();
+                /*++this.score >= 15 ? this.endPage(true) : */
+                this.randomAppleCoord();
+                this.score++;
             }
             //If the length of the blocklist is longer than the length, the length gets reduced. this gives the illusion that the snake is moving although all that is happening is that a leading block is being created and the last blocks are being removed.
             if (this.blockList.length > this.length) {
                 this.blockList.shift();
             }
-        }, 66);
+        }, 50);
         //Creates new apple which automatically renders (see the setter for apple above)
         this.randomAppleCoord();
     }
@@ -154,7 +157,7 @@ class Game {
         }
         else {
             // Renders lose page
-            this.endPage(false);
+            this.endPage( /*false*/);
         }
     }
     findDirection(input) {
@@ -175,12 +178,11 @@ class Game {
     }
     toWhite(pixel) {
         //Sets fill color to input color
-        try {
-            this.ctx.fillStyle = this.color;
-        }
-        catch (error) {
-            this.ctx.fillStyle = "white";
-        }
+        // try {
+        //   this.ctx.fillStyle = this.color;
+        // } catch (error) {
+        this.ctx.fillStyle = "white";
+        //}
         //Creates rectangle using properties of pixel which uses the block interface
         this.ctx.fillRect(pixel.xCoor, pixel.yCoor, pixel.side, pixel.side);
     }
@@ -195,31 +197,43 @@ class Game {
         this.blockList.forEach((item) => {
             //If the coordinates are already in blocklist it renders endPage
             if (item.xCoor === thisSquare.xCoor && item.yCoor === thisSquare.yCoor) {
-                this.endPage(false);
+                this.endPage( /*false*/);
             }
         });
         //Otherwise it adds thisSquare to blocklist and returns it (not sure if i need to return it)
         this.blockList.push(thisSquare);
         return thisSquare;
     }
-    endPage(ifWon) {
-        //If "ifWon" is true then message is "youwin" else "youlose"
-        let message = ifWon ? "you win" : "you lose";
-        //Stops the loop that renders the snake every 66ms
+    //   private endPage(ifWon: Boolean): void {
+    //     //If "ifWon" is true then message is "youwin" else "youlose"
+    //     let message: string = ifWon ? "you win" : "you lose";
+    //     //Stops the loop that renders the snake every 66ms
+    //     clearInterval(this.run);
+    //     //Fills screen in black
+    //     this.ctx.fillStyle = "black";
+    //     this.ctx.fillRect(0, 0, 750, 750);
+    //     //Writes the message in middle of page
+    //     this.ctx.font = "20px Oxygen";
+    //     // try {
+    //     //   this.ctx.fillStyle = this.color;
+    //     // } catch (error) {
+    //     this.ctx.fillStyle = "white";
+    //     //}
+    //     this.ctx.fillText(message, 330, 355);
+    //     //Reloads page after 1 second
+    //     setTimeout(() => {
+    //       window.location.reload();
+    //     }, 1000);
+    //   }
+    // }
+    endPage() {
+        let message = `your score was ${this.score}`;
         clearInterval(this.run);
-        //Fills screen in black
         this.ctx.fillStyle = "black";
         this.ctx.fillRect(0, 0, 750, 750);
-        //Writes the message in middle of page
         this.ctx.font = "20px Oxygen";
-        try {
-            this.ctx.fillStyle = this.color;
-        }
-        catch (error) {
-            this.ctx.fillStyle = "white";
-        }
+        this.ctx.fillStyle = "white";
         this.ctx.fillText(message, 270, 355);
-        //Reloads page after 1 second
         setTimeout(() => {
             window.location.reload();
         }, 1000);
