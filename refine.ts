@@ -33,6 +33,8 @@ class Game {
   private score: number = 0;
   //Apple coordinates
   private _apple: Block;
+  //Color of game
+  private _color: string;
 
   //Getter for apple
   private get apple() {
@@ -43,6 +45,18 @@ class Game {
     this._apple = setTo;
     this.length += 4;
     this.toWhite(this.apple);
+  }
+
+  get color() {
+    return this._color;
+  }
+
+  set color(setTo: string) {
+    if (setTo === "black") {
+      this._color = "white";
+    } else {
+      this._color = setTo;
+    }
   }
 
   //Runs when new object is created
@@ -56,6 +70,9 @@ class Game {
     document.getElementById("holder").append(this.canvas);
     //Need this to draw on canvas Documentation:(https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext)
     this.ctx = this.canvas.getContext("2d");
+
+    this.color = prompt("What color do you want", "white").toLowerCase();
+
     //Calling the render method (see below)
     this.render();
   }
@@ -186,8 +203,13 @@ class Game {
     }
   }
   private toWhite(pixel: Block): void {
-    //Sets fill color to white
-    this.ctx.fillStyle = "white";
+    //Sets fill color to input color
+    try {
+      this.ctx.fillStyle = this.color;
+    } catch (error) {
+      this.ctx.fillStyle = "white";
+    }
+
     //Creates rectangle using properties of pixel which uses the block interface
     this.ctx.fillRect(pixel.xCoor, pixel.yCoor, pixel.side, pixel.side);
   }
@@ -221,7 +243,11 @@ class Game {
     this.ctx.fillRect(0, 0, 750, 750);
     //Writes the message in middle of page
     this.ctx.font = "20px Oxygen";
-    this.ctx.fillStyle = "white";
+    try {
+      this.ctx.fillStyle = this.color;
+    } catch (error) {
+      this.ctx.fillStyle = "white";
+    }
     this.ctx.fillText(message, 330, 355);
     //Reloads page after 1 second
     setTimeout(() => {
