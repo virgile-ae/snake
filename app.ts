@@ -71,7 +71,9 @@ class Game {
     //Need this to draw on canvas Documentation:(https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext)
     this.ctx = this.canvas.getContext("2d");
 
-    this.color = prompt("What color do you want", "white").toLowerCase();
+    this.color = prompt("What color do you want", "white")
+      .toLowerCase()
+      .replace(/\s+/g, "");
 
     //Calling the render method (see below)
     this.render();
