@@ -75,28 +75,28 @@ class Game {
     }
     randomAppleCoord() {
         // Random x coordinate between 0 and 490
-        let x = Math.floor(Math.random() * 50) * 10;
+        let x = Math.floor(Math.random() * 75) * 10;
         //While x <= 20 or x >= 470 a new x coordinate is generated (this is to avoid the block being too close to the edge)
-        while (x <= 20 || x >= 470) {
-            x = Math.floor(Math.random() * 50) * 10;
+        while (x <= 20 || x >= 720) {
+            x = Math.floor(Math.random() * 75) * 10;
         }
         //Same as x but for y coordinate
-        let y = Math.floor(Math.random() * 50) * 10;
-        while (y <= 20 || y >= 470) {
-            y = Math.floor(Math.random() * 50) * 10;
+        let y = Math.floor(Math.random() * 75) * 10;
+        while (y <= 20 || y >= 720) {
+            y = Math.floor(Math.random() * 75) * 10;
         }
         //If the coordinates are the same as those that are in the blocklist it creates new coordinates
         for (let i = 0; i < this.blockList.length; i++) {
             while (this.blockList[i].xCoor === x) {
-                x = Math.floor(Math.random() * 50) * 10;
-                while (x <= 20 || x >= 470) {
-                    x = Math.floor(Math.random() * 50) * 10;
+                x = Math.floor(Math.random() * 75) * 10;
+                while (x <= 20 || x >= 720) {
+                    x = Math.floor(Math.random() * 75) * 10;
                 }
             }
             while (this.blockList[i].yCoor === y) {
-                y = Math.floor(Math.random() * 50) * 10;
-                while (y <= 20 || y >= 470) {
-                    y = Math.floor(Math.random() * 50) * 10;
+                y = Math.floor(Math.random() * 75) * 10;
+                while (y <= 20 || y >= 720) {
+                    y = Math.floor(Math.random() * 75) * 10;
                 }
             }
         }
