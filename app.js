@@ -1,3 +1,21 @@
+const darkMode = document.getElementById("darkMode");
+const all = Array.from(document.getElementsByTagName("*"));
+darkMode.addEventListener("click", () => {
+    if (darkMode.innerHTML === "light") {
+        all.forEach((element) => {
+            element.style.color = "white";
+            element.style.backgroundColor = "black";
+        });
+        darkMode.innerHTML = "dark";
+    }
+    else {
+        all.forEach((element) => {
+            element.style.color = "black";
+            element.style.backgroundColor = "white";
+        });
+        darkMode.innerHTML = "light";
+    }
+});
 var Direction;
 (function (Direction) {
     Direction[Direction["Up"] = 0] = "Up";
@@ -16,6 +34,7 @@ class Game {
         this.canvas.width = 750;
         this.canvas.height = 750;
         document.getElementById("holder").append(this.canvas);
+        this.canvas.style.border = "2px solid white";
         this.ctx = this.canvas.getContext("2d");
         this.render();
     }

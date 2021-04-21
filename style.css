@@ -5,7 +5,19 @@
   font-family: Oxygen, sans-serif;
 }
 
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
 #wrapper {
   width: auto;
   text-align: center;
+}
+
+#darkMode {
+  border: 2px solid;
+  border-radius: 5px;
 }

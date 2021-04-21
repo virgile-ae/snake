@@ -1,3 +1,24 @@
+const darkMode = document.getElementById("darkMode");
+const all = Array.from(
+  document.getElementsByTagName("*") as HTMLCollectionOf<HTMLElement>
+);
+
+darkMode.addEventListener("click", () => {
+  if (darkMode.innerHTML === "light") {
+    all.forEach((element) => {
+      element.style.color = "white";
+      element.style.backgroundColor = "black";
+    });
+    darkMode.innerHTML = "dark";
+  } else {
+    all.forEach((element) => {
+      element.style.color = "black";
+      element.style.backgroundColor = "white";
+    });
+    darkMode.innerHTML = "light";
+  }
+});
+
 //Enumeration (listing all possible values for something in this case Direction)
 enum Direction {
   Up,
@@ -68,6 +89,7 @@ class Game {
     this.canvas.height = 750;
     //Appending the canvas to the "holder" div in the html doc
     document.getElementById("holder").append(this.canvas);
+    this.canvas.style.border = "2px solid white";
     //Need this to draw on canvas Documentation:(https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext)
     this.ctx = this.canvas.getContext("2d");
 
