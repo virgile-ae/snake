@@ -117,40 +117,40 @@ class Game {
     this.randomAppleCoord();
   }
 
-  private randomAppleCoord(): void {
-    // Random x coordinate between 0 and 490
-    let x: number = Math.floor(Math.random() * 75) * 10;
-    //While x <= 20 or x >= 470 a new x coordinate is generated (this is to avoid the block being too close to the edge)
-    while (x <= 20 || x >= 720) {
-      x = Math.floor(Math.random() * 75) * 10;
+  private findDirection(input): Direction {
+    //translates keypress inputs to Direction
+    switch (input.toLowerCase() as String) {
+      case "keyw":
+        return Direction.Up;
+      case "keyd":
+        return Direction.Right;
+      case "keys":
+        return Direction.Down;
+      case "keya":
+        return Direction.Left;
+      //Default is the existing direction
+      default:
+        return this.direction;
     }
-    //Same as x but for y coordinate
-    let y: number = Math.floor(Math.random() * 75) * 10;
-    while (y <= 20 || y >= 720) {
-      y = Math.floor(Math.random() * 75) * 10;
-    }
+  }
 
-    //If the coordinates are the same as those that are in the blocklist it creates new coordinates
-    for (let i = 0; i < this.blockList.length; i++) {
-      while (this.blockList[i].xCoor === x) {
-        x = Math.floor(Math.random() * 75) * 10;
-        while (x <= 20 || x >= 720) {
-          x = Math.floor(Math.random() * 75) * 10;
-        }
-      }
-      while (this.blockList[i].yCoor === y) {
-        y = Math.floor(Math.random() * 75) * 10;
-        while (y <= 20 || y >= 720) {
-          y = Math.floor(Math.random() * 75) * 10;
-        }
-      }
-    }
-    // Sets apple to those coordinates (according to the block interface)
-    this.apple = {
+  private newBlock(x: number, y: number): Block {
+    //Creates a new block
+    let thisSquare: Block = {
       side: 10,
       xCoor: x,
       yCoor: y,
     };
+    //Iterates through blocklist
+    this.blockList.forEach((item) => {
+      //If the coordinates are already in blocklist it renders endPage
+      if (item.xCoor === thisSquare.xCoor && item.yCoor === thisSquare.yCoor) {
+        this.endPage(/*false*/);
+      }
+    });
+    //Otherwise it adds thisSquare to blocklist and returns it (not sure if i need to return it)
+    this.blockList.push(thisSquare);
+    return thisSquare;
   }
 
   private addSquaresToBlockList() {
@@ -191,22 +191,6 @@ class Game {
     }
   }
 
-  private findDirection(input): Direction {
-    //translates keypress inputs to Direction
-    switch (input.toLowerCase() as String) {
-      case "keyw":
-        return Direction.Up;
-      case "keyd":
-        return Direction.Right;
-      case "keys":
-        return Direction.Down;
-      case "keya":
-        return Direction.Left;
-      //Default is the existing direction
-      default:
-        return this.direction;
-    }
-  }
   private toWhite(pixel: Block): void {
     //Sets fill color to input color
     // try {
@@ -219,23 +203,40 @@ class Game {
     this.ctx.fillRect(pixel.xCoor, pixel.yCoor, pixel.side, pixel.side);
   }
 
-  private newBlock(x: number, y: number): Block {
-    //Creates a new block
-    let thisSquare: Block = {
+  private randomAppleCoord(): void {
+    // Random x coordinate between 0 and 490
+    let x: number = Math.floor(Math.random() * 75) * 10;
+    //While x <= 20 or x >= 470 a new x coordinate is generated (this is to avoid the block being too close to the edge)
+    while (x <= 20 || x >= 720) {
+      x = Math.floor(Math.random() * 75) * 10;
+    }
+    //Same as x but for y coordinate
+    let y: number = Math.floor(Math.random() * 75) * 10;
+    while (y <= 20 || y >= 720) {
+      y = Math.floor(Math.random() * 75) * 10;
+    }
+
+    //If the coordinates are the same as those that are in the blocklist it creates new coordinates
+    for (let i = 0; i < this.blockList.length; i++) {
+      while (this.blockList[i].xCoor === x) {
+        x = Math.floor(Math.random() * 75) * 10;
+        while (x <= 20 || x >= 720) {
+          x = Math.floor(Math.random() * 75) * 10;
+        }
+      }
+      while (this.blockList[i].yCoor === y) {
+        y = Math.floor(Math.random() * 75) * 10;
+        while (y <= 20 || y >= 720) {
+          y = Math.floor(Math.random() * 75) * 10;
+        }
+      }
+    }
+    // Sets apple to those coordinates (according to the block interface)
+    this.apple = {
       side: 10,
       xCoor: x,
       yCoor: y,
     };
-    //Iterates through blocklist
-    this.blockList.forEach((item) => {
-      //If the coordinates are already in blocklist it renders endPage
-      if (item.xCoor === thisSquare.xCoor && item.yCoor === thisSquare.yCoor) {
-        this.endPage(/*false*/);
-      }
-    });
-    //Otherwise it adds thisSquare to blocklist and returns it (not sure if i need to return it)
-    this.blockList.push(thisSquare);
-    return thisSquare;
   }
 
   //   private endPage(ifWon: Boolean): void {

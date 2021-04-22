@@ -1,4 +1,4 @@
-const darkMode = document.getElementById("darkMode");
+const darkMode: HTMLElement = document.getElementById("darkMode");
 const all = Array.from(
   document.getElementsByTagName("*") as HTMLCollectionOf<HTMLElement>
 );
