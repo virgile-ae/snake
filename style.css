@@ -21,3 +21,8 @@ body {
   border: 2px solid;
   border-radius: 5px;
 }
+
+iframe {
+  border: none;
+  border-top: 3px solid white;
+}
