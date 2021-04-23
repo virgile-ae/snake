@@ -157,9 +157,9 @@ class Game {
     // If the coordinates of the leading block are in the canvas
     if (
       this.xPos >= 0 &&
-      this.xPos <= 750 &&
+      this.xPos <= 740 &&
       this.yPos >= 0 &&
-      this.yPos <= 750
+      this.yPos <= 740
     ) {
       // Depending on what the direction is set to
       switch (this.direction) {
