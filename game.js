@@ -1,10 +1,3 @@
-var Direction;
-(function (Direction) {
-    Direction[Direction["Up"] = 0] = "Up";
-    Direction[Direction["Down"] = 1] = "Down";
-    Direction[Direction["Left"] = 2] = "Left";
-    Direction[Direction["Right"] = 3] = "Right";
-})(Direction || (Direction = {}));
 class Game {
     constructor() {
         this.xPos = 370;
@@ -28,8 +21,8 @@ class Game {
         this.toWhite(this.apple);
     }
     render() {
-        window.addEventListener("keydown", (e) => {
-            this.direction = this.findDirection(e.code);
+        window.addEventListener("keydown", e => {
+            this.direction = e.code.toLowerCase();
         });
         this.run = setInterval(() => {
             this.ctx.fillStyle = "black";
@@ -49,27 +42,13 @@ class Game {
         }, 50);
         this.randomAppleCoord();
     }
-    findDirection(input) {
-        switch (input.toLowerCase()) {
-            case "keyw":
-                return Direction.Up;
-            case "keyd":
-                return Direction.Right;
-            case "keys":
-                return Direction.Down;
-            case "keya":
-                return Direction.Left;
-            default:
-                return this.direction;
-        }
-    }
     newBlock(x, y) {
         let thisSquare = {
             side: 10,
             xCoor: x,
             yCoor: y,
         };
-        this.blockList.forEach((item) => {
+        this.blockList.forEach(item => {
             if (item.xCoor === thisSquare.xCoor && item.yCoor === thisSquare.yCoor) {
                 this.endPage();
             }
@@ -78,24 +57,21 @@ class Game {
         return thisSquare;
     }
     addSquaresToBlockList() {
-        if (this.xPos >= 0 &&
-            this.xPos <= 740 &&
-            this.yPos >= 0 &&
-            this.yPos <= 740) {
+        if (this.xPos >= 0 && this.xPos <= 740 && this.yPos >= 0 && this.yPos <= 740) {
             switch (this.direction) {
-                case Direction.Up:
+                case "keyw":
                     this.newBlock(this.xPos, this.yPos);
                     this.yPos -= 10;
                     break;
-                case Direction.Right:
+                case "keyd":
                     this.newBlock(this.xPos, this.yPos);
                     this.xPos += 10;
                     break;
-                case Direction.Down:
+                case "keys":
                     this.newBlock(this.xPos, this.yPos);
                     this.yPos += 10;
                     break;
-                case Direction.Left:
+                case "keya":
                     this.newBlock(this.xPos, this.yPos);
                     this.xPos -= 10;
                     break;

@@ -1,11 +1,3 @@
-//Enumeration (listing all possible values for something in this case Direction)
-enum Direction {
-  Up,
-  Down,
-  Left,
-  Right,
-}
-
 // Block interface (could replace with class)
 interface Block {
   side: number;
@@ -24,7 +16,7 @@ class Game {
   //List of all blocks
   private blockList: Block[] = [];
   //Direction that the snake is moving (type is Direction (see above))
-  private direction: Direction;
+  private direction: String;
   //Length of the snake
   private length: number = 2;
   //Holds the setInterval function
@@ -83,9 +75,9 @@ class Game {
   // Render method
   private render(): void {
     //Listens for keypresses
-    window.addEventListener("keydown", (e) => {
+    window.addEventListener("keydown", e => {
       //Sets direction to the keypress if it is valid (uses the findDirection to check if valid)
-      this.direction = this.findDirection(e.code);
+      this.direction = e.code.toLowerCase();
     });
     //Creates a loop that runs every 66ms
     this.run = setInterval(() => {
@@ -117,23 +109,6 @@ class Game {
     this.randomAppleCoord();
   }
 
-  private findDirection(input): Direction {
-    //translates keypress inputs to Direction
-    switch (input.toLowerCase() as String) {
-      case "keyw":
-        return Direction.Up;
-      case "keyd":
-        return Direction.Right;
-      case "keys":
-        return Direction.Down;
-      case "keya":
-        return Direction.Left;
-      //Default is the existing direction
-      default:
-        return this.direction;
-    }
-  }
-
   private newBlock(x: number, y: number): Block {
     //Creates a new block
     let thisSquare: Block = {
@@ -142,7 +117,7 @@ class Game {
       yCoor: y,
     };
     //Iterates through blocklist
-    this.blockList.forEach((item) => {
+    this.blockList.forEach(item => {
       //If the coordinates are already in blocklist it renders endPage
       if (item.xCoor === thisSquare.xCoor && item.yCoor === thisSquare.yCoor) {
         this.endPage(/*false*/);
@@ -155,31 +130,26 @@ class Game {
 
   private addSquaresToBlockList() {
     // If the coordinates of the leading block are in the canvas
-    if (
-      this.xPos >= 0 &&
-      this.xPos <= 740 &&
-      this.yPos >= 0 &&
-      this.yPos <= 740
-    ) {
+    if (this.xPos >= 0 && this.xPos <= 740 && this.yPos >= 0 && this.yPos <= 740) {
       // Depending on what the direction is set to
       switch (this.direction) {
         //Decreases value of y coordinate by 10 (bringing it up)
-        case Direction.Up:
+        case "keyw":
           this.newBlock(this.xPos, this.yPos);
           this.yPos -= 10;
           break;
         //Increases value of x coordinate by 10 (bringing it right)
-        case Direction.Right:
+        case "keyd":
           this.newBlock(this.xPos, this.yPos);
           this.xPos += 10;
           break;
         //Increases value of y coordinate by 10 (bringing it down)
-        case Direction.Down:
+        case "keys":
           this.newBlock(this.xPos, this.yPos);
           this.yPos += 10;
           break;
         //Decreases value of x coordinate by 10 (bringing it right)
-        case Direction.Left:
+        case "keya":
           this.newBlock(this.xPos, this.yPos);
           this.xPos -= 10;
           break;
